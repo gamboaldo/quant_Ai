@@ -1,3 +1,3 @@
-# Neural Networks x Python x Quantitative Finance
+## Neural Networks x Python x Quantitative Finance
 
-####work in progress
+work in progress
