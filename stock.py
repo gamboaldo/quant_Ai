@@ -58,12 +58,16 @@ model.add(LSTM(units=50))
 model.add(Dropout(0.2))
 model.add(Dense(units=1))  # prediction for next closing value
 
+
+# compile the model
 model.compile(optimizer='adam', loss='mean_squared_error')
+
+# fit model to the training data
 model.fit(x_train, y_train, epochs=25, batch_size=32)
 
 ''' Test the Model Accuracy on existing data '''
 
-# Load test Data
+##################### Load test Data ############################
 
 test_start = dt.datetime(2020, 1, 1)
 test_end = dt.datetime.now()
