@@ -8,10 +8,8 @@ import pandas_datareader as web
 import datetime as dt
 import yfinance as yf
 
-# yf.pdr_override()
 
-
-# Load Data
+################# Load Data #####################
 
 company = 'FB'
 
@@ -20,25 +18,36 @@ end = dt.datetime(2020, 1, 1)
 
 data = web.DataReader(company, 'yahoo', start, end)
 
-# prepare data
-scaler = MinMaxScaler(feature_range=(0, 1))
+################ Prepare Data for NN ###################
+
+
+scaler = MinMaxScaler(feature_range=(0, 1))  # fit all numbers between 0 and 1
+
+# transform the close prices in scaled format
 scaled_data = scaler.fit_transform(data['Close'].values.reshape(-1, 1))
 
-prediction_days = 60
+prediction_days = 60  # of past days
 
+# need 2 x, y lists
 x_train = []
 y_train = []
+
 
 for x in range(prediction_days, len(scaled_data)):
     x_train.append(scaled_data[x - prediction_days:x, 0])
     y_train.append(scaled_data[x, 0])
 
+# conver to numpy arrays
 x_train, y_train = np.array(x_train), np.array(y_train)
+
+# reshape , so it works with NN
 x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 
 
-# BUILD THE MODEL
+##################### BUILD THE NN MODEL ########################
 model = Sequential()
+
+# create the layers isn LSTM then Dropout format , then Dense layer(the prediction)
 
 model.add(LSTM(units=50, return_sequences=True,
                input_shape=(x_train.shape[1], 1)))
