@@ -37,7 +37,7 @@ for x in range(prediction_days, len(scaled_data)):
     x_train.append(scaled_data[x - prediction_days:x, 0])
     y_train.append(scaled_data[x, 0])
 
-# conver to numpy arrays
+# convert to numpy arrays
 x_train, y_train = np.array(x_train), np.array(y_train)
 
 # reshape , so it works with NN
