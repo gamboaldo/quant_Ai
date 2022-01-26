@@ -8,10 +8,10 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 from tensorflow.keras.models import Sequential
 
-crypto_currency = 'BNB'
+crypto_currency = 'ETH'
 fiat_currency = 'USD'
 
-start = dt.datetime(2018, 1, 1)
+start = dt.datetime(2012, 1, 1)
 end = dt.datetime.now()
 
 data = web.DataReader(
@@ -22,14 +22,16 @@ scaler = MinMaxScaler(feature_range=(0, 1))  # fit all numbers between 0 and 1
 
 # transform the close prices in scaled format
 scaled_data = scaler.fit_transform(data['Close'].values.reshape(-1, 1))
-prediction_days = 60
+prediction_days = 30
+
+future_days = 1
 
 # need 2 x, y lists
 x_train, y_train = [], []
 
-for x in range(prediction_days, len(scaled_data)):
+for x in range(prediction_days, len(scaled_data)-future_days):
     x_train.append(scaled_data[x-prediction_days:x, 0])
-    y_train.append(scaled_data[x, 0])
+    y_train.append(scaled_data[x + future_days, 0])
 
 # convert to numpy arrays
 x_train, y_train = np.array(x_train), np.array(y_train)
@@ -52,9 +54,9 @@ model.add(Dense(units=1))
 model.compile(optimizer='adam', loss='mean_squared_error')
 
 # fit model to the training data
-model.fit(x_train, y_train, epochs=25, batch_size=32)
+model.fit(x_train, y_train, epochs=5, batch_size=32)
 
-# Testing the Model
+############### Testing the Model ###########################
 test_start = dt.datetime(2020, 1, 1)
 test_end = dt.datetime.now()
 
@@ -82,7 +84,6 @@ prediction_prices = model.predict(x_test)
 # reverse the scaler , to get actual numbers
 prediction_prices = scaler.inverse_transform(prediction_prices)
 
-################# plot the test predictions #####################
 
 plt.plot(actual_prices, color='black', label='Actual Prices')
 plt.plot(prediction_prices, color='green', label='Predicted Prices')
@@ -100,4 +101,5 @@ real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
 prediction = model.predict(real_data)
 prediction = scaler.inverse_transform(prediction)
+
 print()
