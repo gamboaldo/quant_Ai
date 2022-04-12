@@ -7,10 +7,10 @@ plt.style.use("dark_background")
 ma_1 = 30
 ma_2 = 100
 
-start = dt.datetime.now() - dt.timedelta(days=356 * 3)
+start = dt.datetime.now() - dt.timedelta(days=356 * 5)
 end = dt.datetime.now()
 
-data = web.DataReader('TSLA', 'yahoo', start, end)
+data = web.DataReader('SPY', 'yahoo', start, end)
 data[f'SMA_{ma_1}'] = data['Adj Close'].rolling(window=ma_1).mean()
 data[f'SMA_{ma_2}'] = data['Adj Close'].rolling(window=ma_2).mean()
 
@@ -22,6 +22,7 @@ data = data.iloc[ma_2:]
 # plt.plot(data[f'SMA_{ma_2}'], label=f"SMA_{ma_2}", color="blue")
 # plt.legend(loc="upper left")
 # plt.show()
+#
 
 buy_signals = []
 sell_signals = []
