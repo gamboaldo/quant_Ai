@@ -9,7 +9,7 @@ import datetime as dt
 import yfinance as yf
 
 
-################# Load Data ######################
+################# Load Data #######################
 
 company = 'SPY'
 
