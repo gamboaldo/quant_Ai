@@ -18,7 +18,7 @@ end = dt.datetime(2020, 1, 1)
 
 data = web.DataReader(company, 'yahoo', start, end)
 
-################ Prepare Data for NN ####################
+################# Prepare Data for NN ####################
 
 
 scaler = MinMaxScaler(feature_range=(0, 1))  # fit all numbers between 0 and 1
