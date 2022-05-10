@@ -113,7 +113,7 @@ real_data = np.array(real_data)
 real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
 # print(scaler.inverse_transform(real_data[-1]))
-# ################ BUG #####################
+# ################ BUG ######################
 # prediction = model.predict(real_data)
 # prediction = scaler.inverse_transform(prediction)
 # print(f"Prediction: {prediction}")
